@@ -1,0 +1,77 @@
+type UniteEnseignement {
+    code: Int
+    domaine: String
+    responsable: String
+    credits: Int
+    semestre: Int
+}
+
+enum TypeModule {
+    TRANSVERSAL
+    PROFESSIONNEL
+    RECHERCHE
+}
+
+type Module {
+    matricule: String
+    nom: String
+    coefficient: Int
+    volumeHoraire: Int
+    type: TypeModule
+    uniteEnseignement: UniteEnseignement
+}
+
+type Query {
+    # ===== UniteEnseignement =====
+    allUEs: [UniteEnseignement]
+    searchByCode(code: Int!): UniteEnseignement
+    searchByDomaine(domaine: String!): [UniteEnseignement]
+    searchBySemestre(semestre: Int!): [UniteEnseignement]
+
+    # ===== Module =====
+    getAllModules: [Module]
+    searchModuleByMatricule(matricule: String!): Module
+    searchModulesByType(type: TypeModule!): [Module]
+}
+
+type Mutation {
+    # ===== UniteEnseignement =====
+    addUniteEnseignement(
+        code: Int!
+        domaine: String!
+        responsable: String!
+        credits: Int!
+        semestre: Int!
+    ): Boolean
+
+    deleteUniteEnseignement(code: Int!): Boolean
+
+    updateUniteEnseignement(
+        code: Int!
+        domaine: String!
+        responsable: String!
+        credits: Int!
+        semestre: Int!
+    ): Boolean
+
+    # ===== Module =====
+    addModule(
+        matricule: String!
+        nom: String!
+        coefficient: Int!
+        volumeHoraire: Int!
+        type: TypeModule!
+        ueCode: Int!
+    ): Boolean
+
+    updateModule(
+        matricule: String!
+        nom: String!
+        coefficient: Int!
+        volumeHoraire: Int!
+        type: TypeModule!
+        ueCode: Int!
+    ): Boolean
+
+    deleteModule(matricule: String!): Boolean
+}
